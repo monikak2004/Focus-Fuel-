@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Analytics | Focus Fuel</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -23,20 +23,18 @@
 
     .chart-container {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 1rem;
-      height: 100vh;
-      align-items: center;
+      margin-top: 1rem;
     }
 
     .chart-box {
       background: #ffffff;
-      padding: 0.5rem;
+      padding: 1rem;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       transition: background 0.3s;
-      height: 280px;
+      height: 320px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -47,7 +45,7 @@
     }
 
     canvas {
-      max-height: 220px !important;
+      max-height: 260px !important;
       max-width: 100% !important;
     }
 
@@ -83,11 +81,10 @@
       background-color: #005f7a;
     }
 
-    @media (max-width: 768px) {
-      .chart-container {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(3, 1fr);
-      }
+    h2 {
+      margin-top: 1rem;
+      color: #007ea7;
+      text-align: center;
     }
   </style>
 </head>
@@ -96,24 +93,23 @@
   <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
 
   <h2>Performance Analytics</h2>
+
   <div class="chart-container">
-    <div class="chart-box">
-      <canvas id="studyTimeChart"></canvas>
-    </div>
-    <div class="chart-box">
-      <canvas id="syllabusChart"></canvas>
-    </div>
-    <div class="chart-box" style="grid-column: 1 / span 2;">
-      <canvas id="testPerformanceChart"></canvas>
-    </div>
+    <div class="chart-box"><canvas id="studyTimeChart"></canvas></div>
+    <div class="chart-box"><canvas id="syllabusChart"></canvas></div>
+    <div class="chart-box"><canvas id="testPerformanceChart"></canvas></div>
   </div>
 
   <script>
     const subjectData = JSON.parse(localStorage.getItem("subjectsData")) || [];
 
-    const labels = subjectData.map(s => s.name);
-    const syllabusProgress = subjectData.map(s => s.progress || 0);
-    const testScores = subjectData.map(s => s.testScore || 0);
+    // If empty, show default demo data
+    const dummySubjects = ["Math", "Physics", "Chemistry"];
+    const subjects = subjectData.length > 0 ? subjectData : dummySubjects.map(name => ({ name }));
+
+    const labels = subjects.map(s => s.name);
+    const syllabusProgress = subjects.map((s, i) => s.progress || Math.floor(Math.random() * 100));
+    const testScores = subjects.map((s, i) => s.testScore || Math.floor(Math.random() * 100));
 
     const studyTimeData = {
       labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -136,45 +132,46 @@
     const testPerformanceData = {
       labels: labels,
       datasets: [{
-        label: 'Test Scores',
+        label: 'Test Scores (%)',
         data: testScores,
         backgroundColor: '#0077b6'
       }]
     };
 
-    const config1 = {
+    new Chart(document.getElementById('studyTimeChart'), {
       type: 'bar',
       data: studyTimeData,
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } }
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, max: 8 } }
       }
-    };
+    });
 
-    const config2 = {
-      type: 'pie',
+    new Chart(document.getElementById('syllabusChart'), {
+      type: 'bar',
       data: syllabusData,
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, max: 100 } }
       }
-    };
+    });
 
-    const config3 = {
+    new Chart(document.getElementById('testPerformanceChart'), {
       type: 'bar',
       data: testPerformanceData,
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } }
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, max: 100 } }
       }
-    };
+    });
 
-    new Chart(document.getElementById('studyTimeChart'), config1);
-    new Chart(document.getElementById('syllabusChart'), config2);
-    new Chart(document.getElementById('testPerformanceChart'), config3);
-
+    // Theme toggle
     const toggle = document.getElementById("themeToggle");
     const isDark = localStorage.getItem("darkMode") === "true";
     if (isDark) {
