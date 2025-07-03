@@ -109,6 +109,12 @@
   </div>
 
   <script>
+    const subjectData = JSON.parse(localStorage.getItem("subjectsData")) || [];
+
+    const labels = subjectData.map(s => s.name);
+    const syllabusProgress = subjectData.map(s => s.progress || 0);
+    const testScores = subjectData.map(s => s.testScore || 0);
+
     const studyTimeData = {
       labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       datasets: [{
@@ -119,19 +125,19 @@
     };
 
     const syllabusData = {
-      labels: ['Math', 'Physics', 'Chemistry', 'Biology'],
+      labels: labels,
       datasets: [{
         label: '% Syllabus Complete',
-        data: [60, 40, 80, 55],
-        backgroundColor: ['#48cae4', '#90e0ef', '#00b4d8', '#0077b6']
+        data: syllabusProgress,
+        backgroundColor: ['#48cae4', '#90e0ef', '#00b4d8', '#0077b6', '#0096c7', '#61dafb']
       }]
     };
 
     const testPerformanceData = {
-      labels: ['Math', 'Physics', 'Chemistry', 'Biology'],
+      labels: labels,
       datasets: [{
         label: 'Test Scores',
-        data: [75, 62, 88, 70],
+        data: testScores,
         backgroundColor: '#0077b6'
       }]
     };
