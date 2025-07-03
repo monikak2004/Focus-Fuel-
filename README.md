@@ -24,9 +24,12 @@
 
 ---
 
-## 🔗 Live Demo / GitHub
- 
-> Example: https://monikak2004.github.io/Focus-Fuel/
+ ## 🔗 Live Demo
+
+🌐 [Try Focus Fuel live!](
+https://monikak2004.github.io/Focus-Fuel-/
+)
+
 
 ---
 
