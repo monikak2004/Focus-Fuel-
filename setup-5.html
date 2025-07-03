@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setup Step 5 | Focus Fuel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #ecfaff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 500px;
+      animation: fadeIn 0.5s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      text-align: center;
+      color: #007ea7;
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+      color: #333;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1.2rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 1rem;
+      background-color: #00a8e8;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #007ea7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Study Plan Details</h2>
+    <form id="studyForm">
+      <label for="studyHours">How many hours can you study each day?</label>
+      <input type="number" id="studyHours" min="1" max="24" required />
+
+      <label for="sundayPlan">What is your plan for Sundays?</label>
+      <select id="sundayPlan" required>
+        <option value="rest">Rest day</option>
+        <option value="study">Study/Plan day</option>
+      </select>
+
+      <button type="submit">Finish Setup</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("studyForm");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const hours = document.getElementById("studyHours").value;
+      const sunday = document.getElementById("sundayPlan").value;
+
+      const plan = {
+        dailyHours: parseInt(hours),
+        sundayPlan: sunday
+      };
+
+      localStorage.setItem("studyPlan", JSON.stringify(plan));
+      window.location.href = "dashboard.html";
+    });
+  </script>
+</body>
+</html>

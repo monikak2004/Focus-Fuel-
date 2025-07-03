@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setup Step 2 | Focus Fuel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #e8faff, #fefeff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .step-container {
+      background: #fff;
+      padding: 2.5rem;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      width: 90%;
+      max-width: 450px;
+      animation: fadeSlide 0.5s ease-out forwards;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      color: #007ea7;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1.2rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 1rem;
+      background-color: #00a8e8;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #007ea7;
+    }
+  </style>
+</head>
+<body>
+  <div class="step-container">
+    <h2>How Many Subjects?</h2>
+    <form id="subjectForm">
+      <label for="subjectCount">Enter number of subjects (max 10)</label>
+      <input type="number" id="subjectCount" min="1" max="10" required />
+      <button type="submit">Next</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("subjectForm");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const subjectCount = parseInt(document.getElementById("subjectCount").value);
+      localStorage.setItem("subjectCount", subjectCount);
+      window.location.href = "setup-3.html";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setup Step 3 | Focus Fuel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #eafcff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 2rem;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      width: 90%;
+      max-width: 600px;
+      animation: appear 0.5s ease-out;
+    }
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      text-align: center;
+      color: #007ea7;
+      margin-bottom: 1.5rem;
+    }
+    .subject-block {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+      color: #333;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 1rem;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    button {
+      width: 100%;
+      padding: 1rem;
+      background-color: #00a8e8;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #007ea7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Subjects & Syllabus</h2>
+    <form id="subjectsForm"></form>
+  </div>
+
+  <script>
+    const form = document.getElementById('subjectsForm');
+    const subjectCount = parseInt(localStorage.getItem('subjectCount')) || 1;
+
+    for (let i = 1; i <= subjectCount; i++) {
+      const block = document.createElement('div');
+      block.className = 'subject-block';
+      block.innerHTML = `
+        <label for="subject${i}">Subject ${i} Name</label>
+        <input type="text" id="subject${i}" required />
+
+        <label for="syllabus${i}">Syllabus for Subject ${i}</label>
+        <textarea id="syllabus${i}" required></textarea>
+      `;
+      form.appendChild(block);
+    }
+
+    const nextBtn = document.createElement('button');
+    nextBtn.type = 'submit';
+    nextBtn.textContent = 'Next';
+    form.appendChild(nextBtn);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const subjects = [];
+      for (let i = 1; i <= subjectCount; i++) {
+        const name = document.getElementById(`subject${i}`).value;
+        const syllabus = document.getElementById(`syllabus${i}`).value;
+        subjects.push({ name, syllabus });
+      }
+      localStorage.setItem('subjectsData', JSON.stringify(subjects));
+      window.location.href = 'setup-4.html';
+    });
+  </script>
+</body>
+</html>

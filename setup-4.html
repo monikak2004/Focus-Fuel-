@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setup Step 4 | Focus Fuel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #f1faff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 2rem;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      width: 90%;
+      max-width: 600px;
+      animation: appear 0.5s ease-out;
+    }
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      text-align: center;
+      color: #007ea7;
+      margin-bottom: 1.5rem;
+    }
+    .subject-block {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+      color: #333;
+    }
+    textarea {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      min-height: 80px;
+    }
+    button {
+      width: 100%;
+      padding: 1rem;
+      background-color: #00a8e8;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #007ea7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Your Weak Points</h2>
+    <form id="weakForm"></form>
+  </div>
+
+  <script>
+    const form = document.getElementById("weakForm");
+    const subjects = JSON.parse(localStorage.getItem("subjectsData")) || [];
+
+    subjects.forEach((subject, i) => {
+      const block = document.createElement("div");
+      block.className = "subject-block";
+      block.innerHTML = `
+        <label for="weak${i}">Weak points in <strong>${subject.name}</strong></label>
+        <textarea id="weak${i}" placeholder="E.g., Trigonometry, Graphs..." required></textarea>
+      `;
+      form.appendChild(block);
+    });
+
+    const nextBtn = document.createElement("button");
+    nextBtn.type = "submit";
+    nextBtn.textContent = "Next";
+    form.appendChild(nextBtn);
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      subjects.forEach((subject, i) => {
+        subject.weakPoints = document.getElementById(`weak${i}`).value;
+      });
+      localStorage.setItem("subjectsData", JSON.stringify(subjects));
+      window.location.href = "setup-5.html";
+    });
+  </script>
+</body>
+</html>

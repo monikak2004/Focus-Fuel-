@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Focus Fuel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #d0f4ff, #f0f9ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 3rem 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      color: #00a8e8;
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+
+    .tagline {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 2rem;
+    }
+
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      background-color: #ffffff;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 0.9rem 1.4rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s;
+      width: 100%;
+    }
+
+    .google-btn:hover {
+      background-color: #f1f1f1;
+      transform: translateY(-2px);
+    }
+
+    .google-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .loading {
+      display: none;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .error-message {
+      margin-top: 1rem;
+      color: red;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 2rem 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Focus Fuel</h1>
+    <p class="tagline">Plan smarter. Study sharper. Succeed stronger.</p>
+    <button id="loginBtn" class="google-btn">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google logo" />
+      Sign in with Google
+    </button>
+    <div class="loading" id="loadingText">Signing you in...</div>
+    <div class="error-message" id="errorMsg">Login failed. Please try again.</div>
+  </div>
+
+  <!-- Firebase + Auth -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDTjNOuZVSbWczTUMd91xiQkIYTvkyTLjE",
+      authDomain: "focus-fuel.firebaseapp.com",
+      projectId: "focus-fuel",
+      storageBucket: "focus-fuel.appspot.com",
+      messagingSenderId: "310954026760",
+      appId: "1:310954026760:web:96faab59a675705970eebd",
+      measurementId: "G-BCVERDE4Z2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    const loginBtn = document.getElementById("loginBtn");
+    const loadingText = document.getElementById("loadingText");
+    const errorMsg = document.getElementById("errorMsg");
+
+    loginBtn.addEventListener("click", () => {
+      loadingText.style.display = "block";
+      errorMsg.style.display = "none";
+
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          localStorage.setItem("user", JSON.stringify({
+            name: user.displayName,
+            email: user.email,
+            uid: user.uid
+          }));
+          window.location.href = "setup-1.html";
+        })
+        .catch((error) => {
+          console.error(error);
+          loadingText.style.display = "none";
+          errorMsg.style.display = "block";
+        });
+    });
+  </script>
+</body>
+</html>

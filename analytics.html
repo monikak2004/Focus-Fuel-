@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics | Focus Fuel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #e6f7fa;
+      color: #222;
+      padding: 1rem;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .dark-mode {
+      background: #121212;
+      color: #e0e0e0;
+    }
+
+    .chart-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: 1fr 1fr;
+      gap: 1rem;
+      height: 100vh;
+      align-items: center;
+    }
+
+    .chart-box {
+      background: #ffffff;
+      padding: 0.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: background 0.3s;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dark-mode .chart-box {
+      background: #1f1f1f;
+    }
+
+    canvas {
+      max-height: 220px !important;
+      max-width: 100% !important;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: #007ea7;
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    .theme-toggle:hover {
+      background-color: #005f7a;
+    }
+
+    .back-btn {
+      margin-bottom: 1rem;
+      display: inline-block;
+      background-color: #007ea7;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .back-btn:hover {
+      background-color: #005f7a;
+    }
+
+    @media (max-width: 768px) {
+      .chart-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle">🌙</button>
+  <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+
+  <h2>Performance Analytics</h2>
+  <div class="chart-container">
+    <div class="chart-box">
+      <canvas id="studyTimeChart"></canvas>
+    </div>
+    <div class="chart-box">
+      <canvas id="syllabusChart"></canvas>
+    </div>
+    <div class="chart-box" style="grid-column: 1 / span 2;">
+      <canvas id="testPerformanceChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const studyTimeData = {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      datasets: [{
+        label: 'Study Hours',
+        data: [2, 3, 4, 3, 5, 1],
+        backgroundColor: '#00b4d8'
+      }]
+    };
+
+    const syllabusData = {
+      labels: ['Math', 'Physics', 'Chemistry', 'Biology'],
+      datasets: [{
+        label: '% Syllabus Complete',
+        data: [60, 40, 80, 55],
+        backgroundColor: ['#48cae4', '#90e0ef', '#00b4d8', '#0077b6']
+      }]
+    };
+
+    const testPerformanceData = {
+      labels: ['Math', 'Physics', 'Chemistry', 'Biology'],
+      datasets: [{
+        label: 'Test Scores',
+        data: [75, 62, 88, 70],
+        backgroundColor: '#0077b6'
+      }]
+    };
+
+    const config1 = {
+      type: 'bar',
+      data: studyTimeData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } }
+      }
+    };
+
+    const config2 = {
+      type: 'pie',
+      data: syllabusData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    };
+
+    const config3 = {
+      type: 'bar',
+      data: testPerformanceData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } }
+      }
+    };
+
+    new Chart(document.getElementById('studyTimeChart'), config1);
+    new Chart(document.getElementById('syllabusChart'), config2);
+    new Chart(document.getElementById('testPerformanceChart'), config3);
+
+    const toggle = document.getElementById("themeToggle");
+    const isDark = localStorage.getItem("darkMode") === "true";
+    if (isDark) {
+      document.body.classList.add("dark-mode");
+      toggle.textContent = "☀️";
+    }
+    toggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      const dark = document.body.classList.contains("dark-mode");
+      localStorage.setItem("darkMode", dark);
+      toggle.textContent = dark ? "☀️" : "🌙";
+    });
+  </script>
+</body>
+</html>
