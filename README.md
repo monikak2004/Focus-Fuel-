@@ -25,9 +25,8 @@
 ---
 
 ## 🔗 Live Demo / GitHub
-
-> [Replace this line with your GitHub repo or deployed site link]  
-> Example: https://github.com/monikak2004/Focus-Fuel
+ 
+> Example: https://monikak2004.github.io/Focus-Fuel/
 
 ---
 
