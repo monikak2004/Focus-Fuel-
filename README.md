@@ -1,77 +1,46 @@
-# 📚 Focus Fuel – Smart Study Tracker Web App
+# 📚 Focus Fuel – Study Tracker Web App
 
-**Focus Fuel** is a full-stack web application designed to help students plan, track, and optimize their exam preparation. With a user-friendly interface, personalized weekly timetables, and performance dashboards, it empowers learners to study smarter and stay consistent.
-
----
-
-## 🌟 Features
-
-- 🔐 Google Authentication using Firebase
-- 🧠 Multi-step Onboarding: collects name, age, exam date, subjects, and weak areas
-- 📚 Subject & Syllabus Tracker with persistent checkbox progress
-- 🗓 Smart Timetable Generator based on study hours and subject load
-- 📊 Analytics Dashboard:
-  - Study time progress
-  - Syllabus completion pie chart
-  - Test performance bar chart
-- 📆 Weekly Test Planning + Sunday Planning or Rest option
-- 🌙 Dark Mode support
-- 📱 Fully Responsive UI for all screen sizes
+**Focus Fuel** is a web app that helps students plan and track their exam preparation. It allows users to manage their study schedule, monitor syllabus completion, and analyze test performance through a clean and interactive interface.
 
 ---
 
-## 🛠 Tech Stack
+## 🔑 Key Features
 
-- **Frontend:** HTML, CSS, JavaScript
-- **Backend:** Firebase Authentication, Firestore
-- **Data Visualization:** Chart.js
-- **Authentication:** Google Sign-In via Firebase
-
----
-
-## 🚀 Folder Structure
-
-```
-Focus-Fuel/
-├── login.html
-├── setup-1.html ... setup-5.html  # Guided onboarding flow
-├── dashboard.html                 # Weekly timetable with sidebar
-├── profile.html                   # Displays user info and countdown
-├── subject.html                   # Track syllabus and test analytics
-├── analytics.html                 # Progress analysis dashboard
-├── assets/                        # (optional: CSS, images)
-├── LICENSE
-└── README.md
-```
+- 🔐 Google login with Firebase Authentication  
+- 🧠 Step-by-step setup to enter name, age, exam date, subjects, and weak points  
+- 📅 Smart weekly timetable generator based on study hours  
+- ✅ Subject-wise syllabus tracking with checkboxes  
+- 📊 Progress analytics using charts  
+- 🌙 Dark mode support  
+- 📱 Fully responsive design
 
 ---
 
-## 📸 Screenshots
+## 🛠 Built With
 
-_Coming soon: Add images or a screen recording here for visual context._
-
----
-
-## 🧪 How It Works
-
-1. User logs in via Google
-2. Goes through setup steps to define their study plan
-3. App generates a customized weekly timetable
-4. User tracks progress through syllabus checkboxes and test scores
-5. Dashboard and subject pages display real-time performance data
+- **HTML**, **CSS**, **JavaScript**
+- **Firebase** (Auth + Firestore)
+- **Chart.js** for visualizations
 
 ---
 
-## 🙋‍♀️ About the Developer
+## 🔗 Live Demo / GitHub
 
-I'm a BCA student passionate about creating meaningful and data-driven digital tools. Focus Fuel was built to solve a real-world problem for students who want to stay consistent and intentional with their study goals.
-
-🔗 [LinkedIn](https://www.linkedin.com/in/monika-k-6a7643288)  
-
+> [Replace this line with your GitHub repo or deployed site link]  
+> Example: https://github.com/monikak2004/Focus-Fuel
 
 ---
 
 ## 📄 License
 
-This project is open-source under the [MIT License](LICENSE).
+This project is licensed under the **MIT License**.  
+You are free to use, modify, and share with attribution.
 
+---
+
+## 🙋‍♀️ About Me
+
+I’m a BCA student passionate about solving real-world problems using code.  
+Focus Fuel is a full-stack app I built to help students study smarter.
+
+[LinkedIn](https://www.linkedin.com/in/monika-k-6a7643288) 
