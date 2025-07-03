@@ -151,15 +151,28 @@
       heading.textContent = day;
       dayDiv.appendChild(heading);
 
+      const topicsToday = [];
+
       for (let j = 0; j < subjectsPerDay; j++) {
         const subjectIndex = (i + j) % subjects.length;
         const subject = subjects[subjectIndex];
-        const topic = subject.syllabus.split(',').map(s => s.trim())[j % subject.syllabus.split(',').length] || "Review previous topics";
+        const syllabusItems = subject.syllabus.split(',').map(s => s.trim());
+        const topic = syllabusItems[j % syllabusItems.length] || "Review previous topics";
+        topicsToday.push(`${subject.name}: ${topic}`);
+
         const slot = document.createElement("div");
         slot.className = "subject-slot";
         slot.textContent = `${subject.name} - ${studyHours / subjectsPerDay} hrs - Topic: ${topic}`;
         dayDiv.appendChild(slot);
       }
+
+      const summaryBox = document.createElement("div");
+      summaryBox.className = "subject-slot";
+      summaryBox.style.backgroundColor = "#d2f4ff";
+      summaryBox.style.fontWeight = "600";
+      summaryBox.style.marginBottom = "1rem";
+      summaryBox.innerHTML = `Study ${subjectsPerDay} subjects today.<br>Focus:<br>` + topicsToday.map(t => `• ${t}`).join("<br>");
+      dayDiv.insertBefore(summaryBox, dayDiv.children[1]);
 
       timetableDiv.appendChild(dayDiv);
     });
@@ -202,3 +215,4 @@
   </script>
 </body>
 </html>
+
