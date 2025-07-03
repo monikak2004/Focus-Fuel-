@@ -33,7 +33,6 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: background 0.3s, color 0.3s;
     }
     .dark-mode .sidebar {
       background-color: #1e1e1e;
@@ -63,31 +62,39 @@
       width: calc(100% - 250px);
     }
     .timetable {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
       background-color: #ffffff;
       border-radius: 16px;
-      padding: 2rem;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-      transition: background 0.3s;
     }
     .dark-mode .timetable {
       background-color: #1f1f1f;
     }
     .day {
-      margin-bottom: 1.5rem;
+      background: #f8fdff;
+      border-radius: 12px;
+      padding: 1rem;
+    }
+    .dark-mode .day {
+      background: #2a2a2a;
     }
     .day h3 {
+      margin-bottom: 0.8rem;
+      font-size: 1.2rem;
       color: #007ea7;
-      margin-bottom: 0.5rem;
     }
     .subject-slot {
       background-color: #e6f9ff;
-      margin: 0.4rem 0;
-      padding: 0.8rem 1rem;
-      border-radius: 10px;
-      transition: background 0.3s;
+      border-radius: 8px;
+      padding: 0.6rem 0.8rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
     }
     .dark-mode .subject-slot {
-      background-color: #2a2a2a;
+      background-color: #3a3a3a;
     }
     .theme-toggle {
       position: fixed;
@@ -104,17 +111,6 @@
     }
     .theme-toggle:hover {
       background-color: #005f7a;
-    }
-    .fade-in {
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeIn 0.6s ease forwards;
-    }
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
   </style>
 </head>
@@ -135,18 +131,18 @@
   </div>
 
   <div class="content">
-    <h2 class="fade-in">Weekly Study Timetable</h2>
-    <div class="timetable fade-in" id="timetable"></div>
+    <h2>Weekly Study Timetable</h2>
+    <div class="timetable" id="timetable"></div>
   </div>
 
   <script>
     const subjects = JSON.parse(localStorage.getItem("subjectsData")) || [];
     const studyHours = JSON.parse(localStorage.getItem("studyPlan"))?.dailyHours || 4;
-    const syllabusMap = subjects.map(s => s.syllabus.split(',').map(i => i.trim()));
-
-    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    const sundayPlan = JSON.parse(localStorage.getItem("studyPlan"))?.sunday || "rest";
     const timetableDiv = document.getElementById("timetable");
+
     const subjectsPerDay = Math.min(subjects.length, studyHours);
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
     days.forEach((day, i) => {
       const dayDiv = document.createElement("div");
@@ -158,9 +154,9 @@
       for (let j = 0; j < subjectsPerDay; j++) {
         const subjectIndex = (i + j) % subjects.length;
         const subject = subjects[subjectIndex];
+        const topic = subject.syllabus.split(',').map(s => s.trim())[j % subject.syllabus.split(',').length] || "Review previous topics";
         const slot = document.createElement("div");
         slot.className = "subject-slot";
-        const topic = syllabusMap[subjectIndex].shift() || "Review previous topics";
         slot.textContent = `${subject.name} - ${studyHours / subjectsPerDay} hrs - Topic: ${topic}`;
         dayDiv.appendChild(slot);
       }
@@ -168,25 +164,20 @@
       timetableDiv.appendChild(dayDiv);
     });
 
-    // Saturday for test & analysis
     const saturday = document.createElement("div");
     saturday.className = "day";
     saturday.innerHTML = `<h3>Saturday</h3><div class="subject-slot">Mock Tests & Weekly Review</div>`;
     timetableDiv.appendChild(saturday);
 
-    // Sunday for planning or rest
-    const sundayPlan = JSON.parse(localStorage.getItem("studyPlan"))?.sunday || "rest";
     const sunday = document.createElement("div");
     sunday.className = "day";
     sunday.innerHTML = `<h3>Sunday</h3><div class="subject-slot">${sundayPlan === "rest" ? "Rest & Recharge" : "Plan for Next Week & Extra Study"}</div>`;
     timetableDiv.appendChild(sunday);
 
-    // Sidebar subject dropdown
     const dropdown = document.getElementById("subjectDropdown");
-    subjects.forEach((subject, index) => {
+    subjects.forEach((subject) => {
       const link = document.createElement("a");
       link.href = `subject.html?subject=${encodeURIComponent(subject.name)}`;
-
       link.textContent = subject.name;
       dropdown.appendChild(link);
     });
@@ -196,7 +187,6 @@
       menu.style.display = menu.style.display === "block" ? "none" : "block";
     }
 
-    // Dark Mode Toggle
     const toggle = document.getElementById("themeToggle");
     const isDark = localStorage.getItem("darkMode") === "true";
     if (isDark) {
