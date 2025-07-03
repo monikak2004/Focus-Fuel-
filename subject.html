@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Subject Analysis | Focus Fuel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
@@ -66,9 +66,25 @@
       color: #007ea7;
     }
 
+    .syllabus-list {
+      margin-top: 1rem;
+    }
+
     .syllabus-list label {
-      display: block;
+      background: #ffffff;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
       margin: 0.4rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+      transition: background 0.3s;
+    }
+
+    .syllabus-list input[type="checkbox"] {
+      transform: scale(1.2);
+      accent-color: #007ea7;
     }
 
     .charts {
@@ -139,7 +155,12 @@
     const syllabusList = document.getElementById("syllabusList");
 
     let completed = 0;
-    const items = subject.syllabus.split(',').map(s => s.trim());
+
+    // Convert syllabus string to array if needed
+    const items = Array.isArray(subject.syllabus)
+      ? subject.syllabus
+      : subject.syllabus.split(',').map(s => s.trim());
+
     syllabusList.innerHTML = '';
 
     items.forEach((item, i) => {
@@ -169,7 +190,10 @@
           backgroundColor: ['#00b4d8', '#d0f0f7']
         }]
       },
-      options: { plugins: { legend: { position: 'bottom' } }, maintainAspectRatio: false }
+      options: {
+        plugins: { legend: { position: 'bottom' } },
+        maintainAspectRatio: false
+      }
     });
 
     new Chart(document.getElementById("testChart"), {
